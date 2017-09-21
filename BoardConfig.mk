@@ -101,6 +101,9 @@ BOARD_VENDOR_KERNEL_MODULES := \
     $(KERNEL_MODULES_OUT)/snd-soc-wcd-spi.ko \
     $(KERNEL_MODULES_OUT)/llcc_perfmon.ko
 
+# Enable suspend during charger mode
+BOARD_CHARGER_ENABLE_SUSPEND := true
+
 TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
