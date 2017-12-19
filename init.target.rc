@@ -157,6 +157,11 @@ service spdaemon /vendor/bin/spdaemon
     user system
     group system
 
+service hdcp_srm /vendor/bin/hdcp_srm
+    class core
+    user system
+    group system
+
 #service mpdecision /system/vendor/bin/mpdecision --avg_comp
 #   user root
 #   disabled
