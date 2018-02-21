@@ -161,7 +161,7 @@ ro.kernel.qemu.gles=0
 sdm.debug.disable_scalar=0
 qemu.hw.mainkeys=0
 
-sdm.debug.disable_inline_rotator=0
+sdm.debug.disable_inline_rotator=1
 sdm.debug.disable_inline_rotator_secure=0
 
 sdm.debug.prefersplit=1
