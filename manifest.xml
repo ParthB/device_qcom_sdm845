@@ -743,16 +743,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>default</instance>
         </interface>
     </hal>
-    <!-- Broadcast Radio -->
-    <hal format="hidl">
-        <name>android.hardware.broadcastradio</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IBroadcastRadioFactory</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
     <!-- Tether Offload -->
     <hal format="hidl">
         <name>android.hardware.tetheroffload.config</name>

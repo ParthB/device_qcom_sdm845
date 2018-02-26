@@ -150,7 +150,6 @@ PRODUCT_PACKAGES += \
     android.hardware.light@2.0-impl \
     android.hardware.light@2.0-service \
     android.hardware.configstore@1.0-service \
-    android.hardware.broadcastradio@1.0-impl \
     modetest
 
 # Vibrator
