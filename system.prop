@@ -55,7 +55,7 @@ mm.enable.qcom_parser=13631487
 persist.mm.enable.prefetch=true
 
 #Netflix custom property
-ro.netflix.bsp_rev=Q845-05000-1
+ro.netflix.bsp_rev=Q845-14477-1
 
 #
 # system props for the data modules
