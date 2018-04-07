@@ -129,6 +129,11 @@ PRODUCT_PACKAGES += \
     libhealthd.msm
 
 DEVICE_MANIFEST_FILE := device/qcom/sdm845/manifest.xml
+
+ifeq ($(PLATFORM_SDK_VERSION),27) # O-MR1
+DEVICE_MANIFEST_FILE += device/qcom/sdm845/cas.xml
+endif
+
 DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
 
 #ANT+ stack
