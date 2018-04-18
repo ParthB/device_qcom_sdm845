@@ -196,3 +196,12 @@ TARGET_USES_LM := true
 ifeq ($(ENABLE_VENDOR_IMAGE), false)
 $(error "Vendor Image is mandatory !!")
 endif
+
+ver_O = $(filter 8.0%,$(PLATFORM_VERSION))
+ifneq (,$(strip $(ver_O)))
+ ifeq ($(BOARD_AVB_ENABLE),true)
+  ifneq ($(ENABLE_AB),true)
+   $(error "Non-A/B not supported with AVB-2.0 on android 8.0 !!")
+  endif
+ endif
+endif
