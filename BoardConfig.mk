@@ -3,6 +3,9 @@
 # Product-specific compile-time definitions.
 #
 
+BUILD_BROKEN_ANDROIDMK_EXPORTS=true
+BUILD_BROKEN_DUP_COPY_HEADERS=true
+
 TARGET_BOARD_PLATFORM := sdm845
 TARGET_BOOTLOADER_BOARD_NAME := sdm845
 
