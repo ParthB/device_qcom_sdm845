@@ -23,6 +23,9 @@ PRODUCT_PROPERTY_OVERRIDES  += \
   ro.vendor.at_library=libqti-at.so\
   persist.vendor.qti.games.gt.prof=1
 
+#Vendor Profiles
+PRODUCT_COPY_FILES += device/qcom/sdm845/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_vendor.xml
+
 # system prop for opengles version
 #
 # 196608 is decimal for 0x30000 to report version 3
