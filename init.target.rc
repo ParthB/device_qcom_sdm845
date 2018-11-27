@@ -30,9 +30,6 @@
 on early-init
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules pinctrl-wcd wcd-dsp-glink snd-soc-wcd-spi snd-soc-sdm845
     write /proc/sys/kernel/sched_boost 1
-    mkdir /dsp 0771 media media
-    mkdir /firmware 0771 system system
-    mkdir /bt_firmware 0771 system system
     symlink /data/tombstones /tombstones
 
 on init
@@ -172,7 +169,8 @@ on property:sys.shutdown.requested=*
 
 on charger
     start vendor.hvdcp_opti
-    start power_off_alarm
+    start vendor.power_off_alarm
+    setprop vendor.usb.controller a600000.dwc3
     setprop sys.usb.configfs 1
 
 ## import cne init file
