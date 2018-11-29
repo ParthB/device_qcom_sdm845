@@ -201,10 +201,6 @@ service hdcp_srm /vendor/bin/hdcp_srm
     user system
     group system
 
-#service mpdecision /system/vendor/bin/mpdecision --avg_comp
-#   user root
-#   disabled
-#
 #service qosmgrd /system/bin/qosmgr /system/etc/qosmgr_rules.xml
 #   user system
 #   group system

@@ -167,9 +167,5 @@ persist.backup.ntpServer="0.pool.ntp.org"
 vendor.iop.enable_uxe=1
 vendor.perf.iop_v3.enable=1
 
-#min/max cpu in core control
-ro.vendor.qti.core_ctl_min_cpu=2
-ro.vendor.qti.core_ctl_max_cpu=4
-
 #Expose aux camera for below packages
 vendor.camera.aux.packagelist=org.codeaurora.snapcam
