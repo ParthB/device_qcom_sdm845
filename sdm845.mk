@@ -319,6 +319,13 @@ ifeq ($(ENABLE_VENDOR_IMAGE), true)
  VENDOR_SECURITY_PATCH := 2018-06-05
 endif
 
+#BT
+TARGET_USE_QTI_BT_STACK := true
+
+ifeq ($(TARGET_USE_QTI_BT_STACK), true)
+BT := com.qualcomm.qti.bluetooth_audio@1.0-impl
+BT += com.qualcomm.qti.bluetooth_audio@1.0
+endif
 
 ###################################################################################
 # This is the End of target.mk file.
