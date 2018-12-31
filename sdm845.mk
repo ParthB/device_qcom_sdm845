@@ -20,8 +20,7 @@ PRODUCT_PROPERTY_OVERRIDES  += \
 
 # Property to enable app trigger
 PRODUCT_PROPERTY_OVERRIDES  += \
-  ro.vendor.at_library=libqti-at.so\
-  persist.vendor.qti.games.gt.prof=1
+  ro.vendor.at_library=libqti-at.so
 
 # system prop for opengles version
 #
