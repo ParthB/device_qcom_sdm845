@@ -8,7 +8,7 @@ BOARD_AVB_SYSTEM_ROLLBACK_INDEX := 0
 BOARD_AVB_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
 
 TARGET_DEFINES_DALVIK_HEAP := true
-$(call inherit-product, device/qcom/common/common64.mk)
+$(call inherit-product, device/qcom/qssi/common64.mk)
 #Inherit all except heap growth limit from phone-xhdpi-2048-dalvik-heap.mk
 PRODUCT_PROPERTY_OVERRIDES  += \
   dalvik.vm.heapstartsize=8m \
@@ -20,8 +20,7 @@ PRODUCT_PROPERTY_OVERRIDES  += \
 
 # Property to enable app trigger
 PRODUCT_PROPERTY_OVERRIDES  += \
-  ro.vendor.at_library=libqti-at.so\
-  persist.vendor.qti.games.gt.prof=1
+  ro.vendor.at_library=libqti-at.so
 
 #Vendor Profiles
 PRODUCT_COPY_FILES += device/qcom/sdm845/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_vendor.xml
@@ -89,9 +88,9 @@ ifneq ($(TARGET_DISABLE_DASH), true)
     PRODUCT_BOOT_JARS += qcmediaplayer
 endif
 
-ifneq ($(strip $(QCPATH)),)
-    PRODUCT_BOOT_JARS += WfdCommon
-endif
+#ifneq ($(strip $(QCPATH)),)
+#    PRODUCT_BOOT_JARS += WfdCommon
+#endif
 
 PRODUCT_BOOT_JARS += vendor.qti.voiceprint-V1.0-java
 
@@ -322,3 +321,13 @@ TARGET_MOUNT_POINTS_SYMLINKS := false
 ifeq ($(ENABLE_VENDOR_IMAGE), true)
  VENDOR_SECURITY_PATCH := 2018-06-05
 endif
+
+
+###################################################################################
+# This is the End of target.mk file.
+# Now, Pickup other split product.mk files:
+###################################################################################
+# TODO: Relocate the system product.mk files pickup into qssi lunch, once it is up.
+$(call inherit-product-if-exists, vendor/qcom/defs/product-defs/system/*.mk)
+$(call inherit-product-if-exists, vendor/qcom/defs/product-defs/vendor/*.mk)
+###################################################################################
