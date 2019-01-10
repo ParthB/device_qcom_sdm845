@@ -17,11 +17,6 @@ PRODUCT_PROPERTY_OVERRIDES  += \
   dalvik.vm.heapminfree=512k \
   dalvik.vm.heapmaxfree=8m
 
-
-# Property to enable app trigger
-PRODUCT_PROPERTY_OVERRIDES  += \
-  ro.vendor.at_library=libqti-at.so
-
 # system prop for opengles version
 #
 # 196608 is decimal for 0x30000 to report version 3
@@ -265,9 +260,6 @@ PRODUCT_FULL_TREBLE_OVERRIDE := true
 PRODUCT_VENDOR_MOVE_ENABLED := true
 
 PRODUCT_PROPERTY_OVERRIDES += rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so
-
-#Property to set BG App limit
-PRODUCT_PROPERTY_OVERRIDES += ro.vendor.qti.sys.fw.bg_apps_limit=60
 
 #Enable QTI KEYMASTER and GATEKEEPER HIDLs
 KMGK_USE_QTI_SERVICE := true
