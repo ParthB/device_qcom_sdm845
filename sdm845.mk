@@ -73,9 +73,7 @@ PRODUCT_PACKAGES += libGLES_android
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
-PRODUCT_BOOT_JARS += telephony-ext \
-                     tcmiface
-PRODUCT_PACKAGES += telephony-ext
+PRODUCT_BOOT_JARS += tcmiface
 
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 
@@ -218,7 +216,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_FULL_TREBLE_OVERRIDE := true
 PRODUCT_VENDOR_MOVE_ENABLED := true
 
-PRODUCT_PROPERTY_OVERRIDES += rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so
 
 #Enable QTI KEYMASTER and GATEKEEPER HIDLs
 KMGK_USE_QTI_SERVICE := true
@@ -242,8 +239,6 @@ TARGET_SCVE_DISABLED := true
 #TARGET_USES_QTIC_EXTENSION := false
 
 SDM845_DISABLE_MODULE := true
-
-ENABLE_VENDOR_RIL_SERVICE := true
 
 # Enable vndk-sp Libraries
 PRODUCT_PACKAGES += vndk_package
