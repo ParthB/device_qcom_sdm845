@@ -109,6 +109,8 @@ PRODUCT_PACKAGES += android.hardware.media.omx@1.0-impl
 # Audio configuration file
 -include $(TOPDIR)hardware/qcom/audio/configs/sdm845/sdm845.mk
 
+USE_CUSTOM_AUDIO_POLICY := 0
+
 PRODUCT_PACKAGES += fs_config_files
 
 ifeq ($(ENABLE_AB), true)
