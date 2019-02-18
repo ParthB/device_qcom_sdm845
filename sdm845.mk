@@ -111,7 +111,7 @@ PRODUCT_PACKAGES += android.hardware.media.omx@1.0-impl
 
 USE_CUSTOM_AUDIO_POLICY := 0
 
-USE_LIB_PROCESS_GROUP := 1
+USE_LIB_PROCESS_GROUP := true
 
 PRODUCT_PACKAGES += fs_config_files
 
