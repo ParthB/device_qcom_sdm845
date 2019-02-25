@@ -78,12 +78,12 @@ TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 
 PRODUCT_PACKAGES += android.hardware.media.omx@1.0-impl
 
-# Audio configuration file
+#Audio configuration files
 -include $(TOPDIR)hardware/qcom/audio/configs/sdm845/sdm845.mk
-
 USE_CUSTOM_AUDIO_POLICY := 0
+USE_LIB_PROCESS_GROUP := true
 
-USE_LIB_PROCESS_GROUP := 1
+-include $(TOPDIR)vendor/qcom/opensource/audio-hal/primary-hal/configs/sdm845/sdm845.mk
 
 PRODUCT_PACKAGES += fs_config_files
 
