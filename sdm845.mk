@@ -43,12 +43,6 @@ ENABLE_AB ?= true
 
 TARGET_KERNEL_VERSION := 4.9
 
-TARGET_USES_NQ_NFC := true
-ifeq ($(TARGET_USES_NQ_NFC),true)
-# Flag to enable and support NQ3XX chipsets
-NQ3XX_PRESENT := true
-endif
-
 # default is nosdcard, S/W button enabled in resource
 PRODUCT_CHARACTERISTICS := nosdcard
 
