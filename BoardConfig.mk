@@ -32,7 +32,7 @@ TARGET_NO_BOOTLOADER := false
 TARGET_USES_UEFI := true
 TARGET_NO_KERNEL := false
 
--include vendor/qcom/sdm845/BoardConfigVendor.mk
+-include vendor/qcom/prebuilt/sdm845/BoardConfigVendor.mk
 -include $(QCPATH)/common/sdm845/BoardConfigVendor.mk
 
 # Some framework code requires this to enable BT
