@@ -54,9 +54,6 @@ PRODUCT_CHARACTERISTICS := nosdcard
 
 BOARD_FRP_PARTITION_NAME := frp
 
-# WLAN chipset
-WLAN_CHIPSET := qca_cld3
-
 #Android EGL implementation
 PRODUCT_PACKAGES += libGLES_android
 
@@ -154,29 +151,9 @@ PRODUCT_COPY_FILES += device/qcom/sdm845/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)
 PRODUCT_PACKAGES += \
 		    android.hardware.usb@1.0-service
 
-# WLAN host driver
-ifneq ($(WLAN_CHIPSET),)
-PRODUCT_PACKAGES += $(WLAN_CHIPSET)_wlan.ko
-endif
-
-# WLAN configuration file
-PRODUCT_COPY_FILES += \
-    device/qcom/sdm845/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/WCNSS_qcom_cfg.ini \
-    frameworks/native/data/etc/android.hardware.wifi.aware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.aware.xml \
-    frameworks/native/data/etc/android.hardware.wifi.rtt.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.rtt.xml
-
 # MIDI feature
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
-
-PRODUCT_PACKAGES += \
-    wpa_supplicant_overlay.conf \
-    p2p_supplicant_overlay.conf
-
-#for wlan
-PRODUCT_PACKAGES += \
-    wificond \
-    wifilogd
 
 # Sensor conf files
 PRODUCT_COPY_FILES += \
@@ -271,6 +248,11 @@ TARGET_USES_MKE2FS := true
 $(call inherit-product, build/make/target/product/product_launched_with_p.mk)
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
+
+#----------------------------------------------------------------------
+# wlan specific
+#----------------------------------------------------------------------
+include device/qcom/wlan/skunk/wlan.mk
 
 # propery "ro.vendor.build.security_patch" is checked for
 # CTS compliance so need to make sure its set with following
