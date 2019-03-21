@@ -32,7 +32,7 @@ TARGET_NO_BOOTLOADER := false
 TARGET_USES_UEFI := true
 TARGET_NO_KERNEL := false
 
--include vendor/qcom/sdm845/BoardConfigVendor.mk
+-include vendor/qcom/prebuilt/sdm845/BoardConfigVendor.mk
 -include $(QCPATH)/common/sdm845/BoardConfigVendor.mk
 
 # Some framework code requires this to enable BT
@@ -145,7 +145,6 @@ MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
 
 BOARD_USES_GENERIC_AUDIO := true
-BOARD_QTI_CAMERA_32BIT_ONLY := true
 TARGET_NO_RPC := true
 
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
