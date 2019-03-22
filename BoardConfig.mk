@@ -178,6 +178,9 @@ TARGET_USES_GRALLOC1 := true
 # Enable sensor multi HAL
 USE_SENSOR_MULTI_HAL := true
 
+# Enable sensor Version V_2
+USE_SENSOR_HAL_VER := 2.0
+
 #Enable QTI specific Camera2Client layer
 TARGET_USES_QTI_CAMERA2CLIENT := true
 
