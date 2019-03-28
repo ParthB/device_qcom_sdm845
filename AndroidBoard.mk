@@ -49,6 +49,18 @@ TARGET_KERNEL_MAKE_ENV += HOSTCFLAGS="-I/usr/include -I/usr/include/x86_64-linux
 TARGET_KERNEL_MAKE_ENV += HOSTLDFLAGS="-L/usr/lib -L/usr/lib/x86_64-linux-gnu"
 
 include $(TARGET_KERNEL_SOURCE)/AndroidKernel.mk
+
+# Append or enable camx2.1 KMD driver
+ifneq ("$(wildcard $(QCPATH)/chi-cdk/vendor/camx-component.mk)","")
+   include $(QCPATH)/chi-cdk/vendor/camx-component.mk
+   ifeq ($(KERNEL_ARCH),arm64)
+      ifeq ($(CAMX_COMPONENT_2.1), true)
+         KERNEL_CONFIG_OVERRIDE := CONFIG_SPECTRA2_CAMERA=y
+         KERNEL_CONFIG_OVERRIDE += CONFIG_SPECTRA2_CAMERA_DEBUG=y
+      endif
+   endif
+endif
+
 $(TARGET_PREBUILT_KERNEL): $(DTC) $(UFDT_APPLY_OVERLAY)
 
 $(INSTALLED_KERNEL_TARGET): $(TARGET_PREBUILT_KERNEL) | $(ACP)
