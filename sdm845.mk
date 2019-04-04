@@ -124,7 +124,7 @@ PRODUCT_PACKAGES += \
     libvolumelistener
 
 PRODUCT_PACKAGES += \
-    android.hardware.configstore@1.0-service \
+    android.hardware.configstore@1.1-service \
     android.hardware.broadcastradio@1.0-impl
 
 # Vibrator
