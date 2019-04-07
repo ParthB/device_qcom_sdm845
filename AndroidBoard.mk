@@ -49,6 +49,18 @@ TARGET_KERNEL_MAKE_ENV += HOSTCFLAGS="-I/usr/include -I/usr/include/x86_64-linux
 TARGET_KERNEL_MAKE_ENV += HOSTLDFLAGS="-L/usr/lib -L/usr/lib/x86_64-linux-gnu"
 
 include $(TARGET_KERNEL_SOURCE)/AndroidKernel.mk
+
+# Append or enable camx2.1 KMD driver
+ifneq ("$(wildcard $(QCPATH)/chi-cdk/vendor/camx-component.mk)","")
+   include $(QCPATH)/chi-cdk/vendor/camx-component.mk
+   ifeq ($(KERNEL_ARCH),arm64)
+      ifeq ($(CAMX_COMPONENT_2.1), true)
+         KERNEL_CONFIG_OVERRIDE := CONFIG_SPECTRA2_CAMERA=y
+         KERNEL_CONFIG_OVERRIDE += CONFIG_SPECTRA2_CAMERA_DEBUG=y
+      endif
+   endif
+endif
+
 $(TARGET_PREBUILT_KERNEL): $(DTC) $(UFDT_APPLY_OVERLAY)
 
 $(INSTALLED_KERNEL_TARGET): $(TARGET_PREBUILT_KERNEL) | $(ACP)
@@ -113,7 +125,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE       := hostapd_default.conf
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/hostapd
+LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)/hostapd
 LOCAL_SRC_FILES    := hostapd.conf
 include $(BUILD_PREBUILT)
 
@@ -121,7 +133,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE       := hostapd.accept
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/hostapd
+LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)/hostapd
 LOCAL_SRC_FILES    := hostapd.accept
 include $(BUILD_PREBUILT)
 
@@ -129,7 +141,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE       := hostapd.deny
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/hostapd
+LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)/hostapd
 LOCAL_SRC_FILES    := hostapd.deny
 include $(BUILD_PREBUILT)
 
