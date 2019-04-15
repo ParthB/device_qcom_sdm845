@@ -154,7 +154,7 @@ on property:sys.shutdown.requested=*
 
 on charger
     start vendor.hvdcp_opti
-    start power_off_alarm
+    start vendor.power_off_alarm
     setprop sys.usb.configfs 1
 
 ## import cne init file
