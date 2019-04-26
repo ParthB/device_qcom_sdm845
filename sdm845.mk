@@ -72,7 +72,6 @@ BOARD_FRP_PARTITION_NAME := frp
 PRODUCT_PACKAGES += libGLES_android
 
 -include $(QCPATH)/common/config/qtic-config.mk
--include hardware/qcom/display/config/sdm845.mk
 
 PRODUCT_BOOT_JARS += telephony-ext \
                      tcmiface
