@@ -1,3 +1,26 @@
+# Default A/B configuration.
+ENABLE_AB ?= true
+
+# For QSSI builds, we skip building the system image. Instead we build the
+# "non-system" images (that we support).
+PRODUCT_BUILD_SYSTEM_IMAGE := false
+PRODUCT_BUILD_SYSTEM_OTHER_IMAGE := false
+PRODUCT_BUILD_VENDOR_IMAGE := true
+PRODUCT_BUILD_PRODUCT_IMAGE := false
+PRODUCT_BUILD_PRODUCT_SERVICES_IMAGE := false
+PRODUCT_BUILD_ODM_IMAGE := false
+ifeq ($(ENABLE_AB), true)
+PRODUCT_BUILD_CACHE_IMAGE := false
+else
+PRODUCT_BUILD_CACHE_IMAGE := true
+endif
+PRODUCT_BUILD_RAMDISK_IMAGE := true
+PRODUCT_BUILD_USERDATA_IMAGE := true
+
+# Also, since we're going to skip building the system image, we also skip
+# building the OTA package. We'll build this at a later step.
+TARGET_SKIP_OTA_PACKAGE := true
+
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
 
@@ -38,9 +61,6 @@ TARGET_USES_QCOM_BSP := false
 # RRO configuration
 TARGET_USES_RRO := true
 
-# Default A/B configuration.
-ENABLE_AB ?= true
-
 TARGET_KERNEL_VERSION := 4.9
 
 # default is nosdcard, S/W button enabled in resource
@@ -52,11 +72,8 @@ BOARD_FRP_PARTITION_NAME := frp
 PRODUCT_PACKAGES += libGLES_android
 
 -include $(QCPATH)/common/config/qtic-config.mk
--include hardware/qcom/display/config/sdm845.mk
 
-PRODUCT_BOOT_JARS += telephony-ext \
-                     tcmiface
-PRODUCT_PACKAGES += telephony-ext
+PRODUCT_BOOT_JARS += tcmiface
 
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 
@@ -104,6 +121,9 @@ PRODUCT_PACKAGES += \
 endif
 
 DEVICE_MANIFEST_FILE := device/qcom/sdm845/manifest.xml
+ifeq ($(ENABLE_AB), true)
+DEVICE_MANIFEST_FILE += device/qcom/sdm845/manifest_ab.xml
+endif
 DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
 DEVICE_FRAMEWORK_MANIFEST_FILE := device/qcom/sdm845/framework_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/vendor_framework_compatibility_matrix.xml
@@ -117,7 +137,7 @@ PRODUCT_PACKAGES += \
     libvolumelistener
 
 PRODUCT_PACKAGES += \
-    android.hardware.configstore@1.0-service \
+    android.hardware.configstore@1.1-service \
     android.hardware.broadcastradio@1.0-impl
 
 # Vibrator
@@ -196,7 +216,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_FULL_TREBLE_OVERRIDE := true
 PRODUCT_VENDOR_MOVE_ENABLED := true
 
-PRODUCT_PROPERTY_OVERRIDES += rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so
 
 #Enable QTI KEYMASTER and GATEKEEPER HIDLs
 KMGK_USE_QTI_SERVICE := true
@@ -220,8 +239,6 @@ TARGET_SCVE_DISABLED := true
 #TARGET_USES_QTIC_EXTENSION := false
 
 SDM845_DISABLE_MODULE := true
-
-ENABLE_VENDOR_RIL_SERVICE := true
 
 # Enable vndk-sp Libraries
 PRODUCT_PACKAGES += vndk_package
