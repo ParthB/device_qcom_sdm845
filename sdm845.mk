@@ -50,7 +50,7 @@ PRODUCT_PROPERTY_OVERRIDES  += \
 
 PRODUCT_NAME := sdm845
 PRODUCT_DEVICE := sdm845
-PRODUCT_BRAND := qti
+PRODUCT_BRAND := Android
 PRODUCT_MODEL := SDM845 for arm64
 
 #Initial bringup flags
