@@ -1,3 +1,13 @@
+# define flag to determine the kernel
+TARGET_KERNEL_VERSION := $(shell ls kernel | grep "msm-*" | sed 's/msm-//')
+
+# Set TARGET_USES_NEW_ION for 4.14 and higher kernels
+ifeq ($(TARGET_KERNEL_VERSION),$(filter $(TARGET_KERNEL_VERSION),3.18 4.4 4.9))
+TARGET_USES_NEW_ION := false
+else
+TARGET_USES_NEW_ION := true
+endif
+
 # Board platforms lists to be used for
 # TARGET_BOARD_PLATFORM specific featurization
 QCOM_BOARD_PLATFORMS += msm8974
@@ -28,6 +38,7 @@ QCOM_BOARD_PLATFORMS += msmnile_au
 QCOM_BOARD_PLATFORMS += qcs605
 QCOM_BOARD_PLATFORMS += $(MSMSTEPPE)
 QCOM_BOARD_PLATFORMS += $(TRINKET)
+QCOM_BOARD_PLATFORMS += sdmshrike_au
 
 QSD8K_BOARD_PLATFORMS := qsd8k
 
@@ -302,6 +313,7 @@ INIT += init.qcom.sdio.sh
 INIT += init.qcom.sh
 INIT += init.qcom.class_core.sh
 INIT += init.class_main.sh
+INIT += init.class_late.sh
 INIT += init.qcom.wifi.sh
 INIT += vold.fstab
 INIT += init.qcom.ril.path.sh
@@ -321,6 +333,8 @@ INIT += init.qcom.crashdata.sh
 INIT += init.qcom.vendor.rc
 INIT += init.target.vendor.rc
 INIT += init.qti.fm.sh
+INIT += init.qti.can.sh
+INIT += init.qti.charger.sh
 
 #IPROUTE2
 IPROUTE2 := ip
@@ -402,6 +416,7 @@ LIBCAMERA += camera.msm8996
 LIBCAMERA += camera.msm8998
 LIBCAMERA += camera.apq8098_latv
 LIBCAMERA += camera.sdm660
+LIBCAMERA += camera.trinket
 LIBCAMERA += camera.msm8952
 LIBCAMERA += camera.msm8937
 LIBCAMERA += camera.msm8953
@@ -601,10 +616,12 @@ LIBQDMETADATA := libqdMetaData
 LIBQDMETADATA += libqdMetaData.system
 
 #LIBPOWER
+ifneq ($(TARGET_USES_NON_LEGACY_POWERHAL), true)
 LIBPOWER := power.qcom
 #LIBPOWER -- Add HIDL Packages
 LIBPOWER += android.hardware.power@1.0-impl
 LIBPOWER += android.hardware.power@1.0-service
+endif
 
 #LLVM for RenderScript
 #use qcom LLVM
@@ -661,6 +678,7 @@ NQ_NFC += libnqnfc_nci_jni
 NQ_NFC += libsn100nfc_nci_jni
 NQ_NFC += libsn100nfc-nci
 NQ_NFC += nfc_nci.nqx.default
+NQ_NFC += nfc_nci.sn100.default
 NQ_NFC += libp61-jcop-kit
 NQ_NFC += com.nxp.nfc.nq
 NQ_NFC += com.nxp.nfc.nq.xml
@@ -679,6 +697,7 @@ NQ_NFC += nqnfcinfo
 NQ_NFC += com.android.nfc_extras
 NQ_NFC += vendor.nxp.hardware.nfc@1.1-service
 NQ_NFC += nfc_nci.nqx.default.hw
+NQ_NFC += nfc_nci.sn100.default.hw
 PRODUCT_PROPERTY_OVERRIDES += ro.hardware.nfc_nci=nqx.default
 
 #OPENCORE
@@ -740,6 +759,7 @@ THERMAL_HAL += thermal.msm8953
 THERMAL_HAL += thermal.msm8937
 THERMAL_HAL += thermal.msmnile
 THERMAL_HAL += thermal.$(MSMSTEPPE)
+THERMAL_HAL += thermal.$(TRINKET)
 
 #TSLIB_EXTERNAL
 TSLIB_EXTERNAL := corgi
@@ -830,6 +850,8 @@ WIGIG += libwigig_pciaccess
 #FD_LEAK
 FD_LEAK := libc_leak_detector
 
+TELEPHONY_DBG := NrNetworkSettingApp
+
 PRODUCT_PACKAGES := \
     AccountAndSyncSettings \
     DeskClock \
@@ -869,10 +891,7 @@ PRODUCT_PACKAGES := \
     a4wpservice \
     wipowerservice \
     Mms \
-    QtiDialer \
-    NrNetworkSettingApp \
-    qtiNetworkLib \
-    TestApp5G
+    QtiDialer
 
 
 ifeq ($(TARGET_HAS_LOW_RAM),true)
@@ -993,14 +1012,19 @@ PRODUCT_PACKAGES += android.hidl.manager@1.0-java
 
 PRODUCT_PACKAGES += android.hardware.drm@1.0-impl
 PRODUCT_PACKAGES += android.hardware.drm@1.0-service
-PRODUCT_PACKAGES += android.hardware.drm@1.1-service.widevine
 PRODUCT_PACKAGES += android.hardware.drm@1.1-service.clearkey
+
+ifneq ($(strip $(ENABLE_HYP)),false)
+PRODUCT_PACKAGES += android.hardware.drm@1.1-service.widevine
+endif
+
 ifeq ($(strip $(OTA_FLAG_FOR_DRM)),true)
 PRODUCT_PACKAGES += move_widevine_data.sh
 endif
 PRODUCT_PACKAGES += move_wifi_data.sh
 PRODUCT_PACKAGES += librs_jni
 
+PRODUCT_PACKAGES += init.qti.manifest_sku.sh
 # Filesystem management tools
 PRODUCT_PACKAGES += \
     make_ext4fs \
@@ -1027,6 +1051,8 @@ PRODUCT_PACKAGES_DEBUG := init.qcom.testscripts.sh
 #Add init.qcom.test.rc to PRODUCT_PACKAGES_DEBUG list
 PRODUCT_PACKAGES_DEBUG += init.qcom.test.rc
 PRODUCT_PACKAGES_DEBUG += init.qcom.debug.sh
+
+PRODUCT_PACKAGES_DEBUG += $(TELEPHONY_DBG)
 
 #NANOPB_LIBRARY_NAME := libnanopb-c-2.8.0
 
@@ -1130,8 +1156,13 @@ endif
 ifneq ($(strip $(TARGET_USES_RRO)),true)
 # enable overlays to use our version of
 # source/resources etc.
+ifneq ($(strip $(TARGET_BOARD_AUTO)),true)
 DEVICE_PACKAGE_OVERLAYS += device/qcom/common/device/overlay
 PRODUCT_PACKAGE_OVERLAYS += device/qcom/common/product/overlay
+else
+DEVICE_PACKAGE_OVERLAYS += device/qcom/common/auto/device/overlay
+PRODUCT_PACKAGE_OVERLAYS += device/qcom/common/auto/product/overlay
+endif
 endif
 
 # Set up flags to determine the kernel version
