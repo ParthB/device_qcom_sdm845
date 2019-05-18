@@ -185,8 +185,7 @@ endif
 # WLAN configuration file
 PRODUCT_COPY_FILES += \
     device/qcom/sdm845/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/WCNSS_qcom_cfg.ini \
-    frameworks/native/data/etc/android.hardware.wifi.aware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.aware.xml \
-    frameworks/native/data/etc/android.hardware.wifi.rtt.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.rtt.xml
+    frameworks/native/data/etc/android.hardware.wifi.aware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.aware.xml
 
 # MIDI feature
 PRODUCT_COPY_FILES += \
@@ -310,11 +309,3 @@ TARGET_USES_MKE2FS := true
 $(call inherit-product, build/make/target/product/product_launched_with_p.mk)
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
-
-# propery "ro.vendor.build.security_patch" is checked for
-# CTS compliance so need to make sure its set with following
-# format "YYYY-MM-DD" on production devices.
-#
-ifeq ($(ENABLE_VENDOR_IMAGE), true)
- VENDOR_SECURITY_PATCH := 2018-06-05
-endif
