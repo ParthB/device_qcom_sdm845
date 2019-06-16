@@ -1,6 +1,6 @@
 # Default A/B configuration.
 ENABLE_AB ?= true
-
+BOARD_DYNAMIC_PARTITION_ENABLE ?= false
 # For QSSI builds, we skip building the system image. Instead we build the
 # "non-system" images (that we support).
 PRODUCT_BUILD_SYSTEM_IMAGE := false
@@ -23,16 +23,33 @@ PRODUCT_BUILD_USERDATA_IMAGE := true
 TARGET_SKIP_OTA_PACKAGE := true
 TARGET_SKIP_OTATOOLS_PACKAGE := true
 
-# Enable AVB 2.0
-BOARD_AVB_ENABLE := true
 
+ifneq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
 # Enable chain partition for system, to facilitate system-only OTA in Treble.
 BOARD_AVB_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
 BOARD_AVB_SYSTEM_ALGORITHM := SHA256_RSA2048
 BOARD_AVB_SYSTEM_ROLLBACK_INDEX := 0
 BOARD_AVB_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
+else
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+PRODUCT_PACKAGES += fastbootd
+ifeq ($(ENABLE_AB), true)
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
+else
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
+endif
+BOARD_AVB_VBMETA_SYSTEM := system
+BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
+BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA2048
+BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
+endif
+
+# Enable AVB 2.0
+BOARD_AVB_ENABLE := true
 
 TARGET_DEFINES_DALVIK_HEAP := true
+TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 $(call inherit-product, device/qcom/qssi/common64.mk)
 #Inherit all except heap growth limit from phone-xhdpi-2048-dalvik-heap.mk
 PRODUCT_PROPERTY_OVERRIDES  += \
@@ -76,8 +93,6 @@ PRODUCT_PACKAGES += libGLES_android
 -include $(QCPATH)/common/config/qtic-config.mk
 
 PRODUCT_BOOT_JARS += tcmiface
-
-TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 
 #ifneq ($(strip $(QCPATH)),)
 #    PRODUCT_BOOT_JARS += WfdCommon
@@ -265,14 +280,6 @@ TARGET_MOUNT_POINTS_SYMLINKS := false
 # wlan specific
 #----------------------------------------------------------------------
 include device/qcom/wlan/skunk/wlan.mk
-
-# propery "ro.vendor.build.security_patch" is checked for
-# CTS compliance so need to make sure its set with following
-# format "YYYY-MM-DD" on production devices.
-#
-ifeq ($(ENABLE_VENDOR_IMAGE), true)
- VENDOR_SECURITY_PATCH := 2018-06-05
-endif
 
 #BT
 TARGET_USE_QTI_BT_STACK := true
