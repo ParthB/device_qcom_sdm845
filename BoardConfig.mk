@@ -84,6 +84,10 @@ BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
     else
         BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x04000000
         TARGET_RECOVERY_FSTAB := device/qcom/sdm845/recovery_non-AB_variant.fstab
+        ifeq ($(BOARD_KERNEL_SEPARATED_DTBO),true)
+            # Enable DTBO for recovery image
+            BOARD_INCLUDE_RECOVERY_DTBO := true
+        endif
     endif
 else
 # Define the Dynamic Partition sizes and groups.
@@ -93,6 +97,10 @@ else
     else
         BOARD_SUPER_PARTITION_SIZE := 6442450944
         TARGET_RECOVERY_FSTAB := device/qcom/sdm845/recovery_non-AB_dynamic_partition.fstab
+    endif
+    ifeq ($(BOARD_KERNEL_SEPARATED_DTBO),true)
+        # Enable DTBO for recovery image
+        BOARD_INCLUDE_RECOVERY_DTBO := true
     endif
 BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
 BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 6438256640
