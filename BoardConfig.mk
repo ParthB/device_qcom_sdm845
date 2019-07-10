@@ -45,6 +45,9 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/qcom/common
 USE_OPENGL_RENDERER := true
 BOARD_USE_LEGACY_UI := true
 
+#Generate DTBO image
+BOARD_KERNEL_SEPARATED_DTBO := true
+
 TARGET_KERNEL_APPEND_DTB := true
 
 # Set Header version for bootimage
@@ -219,9 +222,6 @@ TARGET_USES_QTI_CAMERA2CLIENT := true
 
 #Add non-hlos files to ota packages
 ADD_RADIO_FILES := true
-
-#Generate DTBO image
-BOARD_KERNEL_SEPARATED_DTBO := true
 
 #To use libhealthd.msm instead of libhealthd.default
 BOARD_HAL_STATIC_LIBRARIES := libhealthd.msm
