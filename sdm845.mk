@@ -1,6 +1,17 @@
 # Default A/B configuration.
 ENABLE_AB ?= true
-BOARD_DYNAMIC_PARTITION_ENABLE ?= false
+# By default this target is OTA config, so set the default shipping
+# level to 28 (if not set explicitly earlier)
+SHIPPING_API_LEVEL ?= 28
+# Enable Dynamic partitions only for Q new launch devices
+ifeq ($(SHIPPING_API_LEVEL),29)
+  BOARD_DYNAMIC_PARTITION_ENABLE := true
+  PRODUCT_SHIPPING_API_LEVEL := 29
+else ifeq ($(SHIPPING_API_LEVEL),28)
+  BOARD_DYNAMIC_PARTITION_ENABLE := false
+  $(call inherit-product, build/make/target/product/product_launched_with_p.mk)
+endif
+
 # For QSSI builds, we skip building the system image. Instead we build the
 # "non-system" images (that we support).
 PRODUCT_BUILD_SYSTEM_IMAGE := false
@@ -272,7 +283,6 @@ WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 QC_WIFI_HIDL_FEATURE_DUAL_AP := true
 
 TARGET_USES_MKE2FS := true
-$(call inherit-product, build/make/target/product/product_launched_with_p.mk)
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
 
