@@ -120,6 +120,12 @@ BOARD_EXT4_SHARE_DUP_BLOCKS := true
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x06000000
 endif
 
+# Metadata partition (applicable only for new launches)
+ifeq ($(SHIPPING_API_LEVEL),29)
+BOARD_METADATAIMAGE_PARTITION_SIZE := 16777216
+BOARD_USES_METADATA_PARTITION := true
+endif
+
 #Enable compilation of oem-extensions to recovery
 #These need to be explicitly
 ifneq ($(AB_OTA_UPDATER),true)
