@@ -132,6 +132,12 @@ ifneq ($(AB_OTA_UPDATER),true)
     TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_msm
 endif
 
+ifeq ($(SHIPPING_API_LEVEL),29)
+  BOARD_SYSTEMSDK_VERSIONS:=29
+else
+  BOARD_SYSTEMSDK_VERSIONS:=28
+endif
+
 #Enable Charging Icon
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 
@@ -249,9 +255,6 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 include device/qcom/wlan/skunk/BoardConfigWlan.mk
 endif
 
-#Flag to enable System SDK Requirements.
-#All vendor APK will be compiled against system_current API set.
-BOARD_SYSTEMSDK_VERSIONS:=28
 BOARD_VNDK_VERSION:= current
 BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_PHONY_TARGETS := true
