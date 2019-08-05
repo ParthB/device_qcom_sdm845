@@ -48,6 +48,9 @@ endif
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
 
+# privapp-permissions whitelisting
+PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
+
 TARGET_DEFINES_DALVIK_HEAP := true
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 $(call inherit-product, device/qcom/qssi/common64.mk)
