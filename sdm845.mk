@@ -303,6 +303,10 @@ BT := com.qualcomm.qti.bluetooth_audio@1.0-impl
 BT += com.qualcomm.qti.bluetooth_audio@1.0
 endif
 
+# Target specific Netflix custom property
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.netflix.bsp_rev=Q845-14477-1
+
 ###################################################################################
 # This is the End of target.mk file.
 # Now, Pickup other split product.mk files:
