@@ -99,6 +99,12 @@ TARGET_USES_RRO := true
 
 TARGET_KERNEL_VERSION := 4.9
 
+#Enable llvm support for kernel
+KERNEL_LLVM_SUPPORT := true
+
+#Enable sd-llvm suppport for kernel
+KERNEL_SD_LLVM_SUPPORT := true
+
 # default is nosdcard, S/W button enabled in resource
 PRODUCT_CHARACTERISTICS := nosdcard
 
@@ -296,6 +302,10 @@ ifeq ($(TARGET_USE_QTI_BT_STACK), true)
 BT := com.qualcomm.qti.bluetooth_audio@1.0-impl
 BT += com.qualcomm.qti.bluetooth_audio@1.0
 endif
+
+# Target specific Netflix custom property
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.netflix.bsp_rev=Q845-14477-1
 
 ###################################################################################
 # This is the End of target.mk file.
